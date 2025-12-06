@@ -12,7 +12,7 @@ func TestAPIKeyJSON(t *testing.T) {
 	// Test APIKey marshaling and unmarshaling
 	expiration := time.Now().Add(24 * time.Hour)
 	apiKey := APIKey{
-		ID:        1,
+		ID:        "1",
 		Prefix:    "testprefix",
 		Expiration: expiration,
 		CreatedAt: time.Now(),
@@ -27,14 +27,14 @@ func TestAPIKeyJSON(t *testing.T) {
 	var parsedAPIKey APIKey
 	err = json.Unmarshal(data, &parsedAPIKey)
 	assert.NoError(t, err)
-	assert.Equal(t, int64(1), parsedAPIKey.ID)
+	assert.Equal(t, "1", parsedAPIKey.ID)
 	assert.Equal(t, "testprefix", parsedAPIKey.Prefix)
 }
 
 func TestNodeJSON(t *testing.T) {
 	// Test Node marshaling and unmarshaling
 	node := Node{
-		ID:         1,
+		ID:         "1",
 		Name:       "test-node",
 		IPAddresses: []string{"10.0.0.1", "10.0.0.2"},
 		Online:     true,
@@ -49,7 +49,7 @@ func TestNodeJSON(t *testing.T) {
 	var parsedNode Node
 	err = json.Unmarshal(data, &parsedNode)
 	assert.NoError(t, err)
-	assert.Equal(t, int64(1), parsedNode.ID)
+	assert.Equal(t, "1", parsedNode.ID)
 	assert.Equal(t, "test-node", parsedNode.Name)
 	assert.Equal(t, []string{"10.0.0.1", "10.0.0.2"}, parsedNode.IPAddresses)
 	assert.True(t, parsedNode.Online)
@@ -58,7 +58,7 @@ func TestNodeJSON(t *testing.T) {
 func TestUserJSON(t *testing.T) {
 	// Test User marshaling and unmarshaling
 	user := User{
-		ID:          1,
+		ID:          "1",
 		Name:        "test-user",
 		DisplayName: "Test User",
 	}
@@ -72,7 +72,7 @@ func TestUserJSON(t *testing.T) {
 	var parsedUser User
 	err = json.Unmarshal(data, &parsedUser)
 	assert.NoError(t, err)
-	assert.Equal(t, int64(1), parsedUser.ID)
+	assert.Equal(t, "1", parsedUser.ID)
 	assert.Equal(t, "test-user", parsedUser.Name)
 	assert.Equal(t, "Test User", parsedUser.DisplayName)
 }
@@ -80,12 +80,12 @@ func TestUserJSON(t *testing.T) {
 func TestPreAuthKeyJSON(t *testing.T) {
 	// Test PreAuthKey marshaling and unmarshaling
 	user := User{
-		ID:   1,
+		ID:   "1",
 		Name: "test-user",
 	}
-	
+
 	preAuthKey := PreAuthKey{
-		ID:       1,
+		ID:       "1",
 		Key:      "test-key",
 		User:     user,
 		Reusable: true,
@@ -101,7 +101,7 @@ func TestPreAuthKeyJSON(t *testing.T) {
 	var parsedPreAuthKey PreAuthKey
 	err = json.Unmarshal(data, &parsedPreAuthKey)
 	assert.NoError(t, err)
-	assert.Equal(t, int64(1), parsedPreAuthKey.ID)
+	assert.Equal(t, "1", parsedPreAuthKey.ID)
 	assert.Equal(t, "test-key", parsedPreAuthKey.Key)
 	assert.Equal(t, true, parsedPreAuthKey.Reusable)
 	assert.Equal(t, []string{"tag1", "tag2"}, parsedPreAuthKey.ACLTags)

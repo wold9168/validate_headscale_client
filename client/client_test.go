@@ -48,10 +48,10 @@ func TestListApiKeys(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/api/v1/apikey", r.URL.Path)
 		assert.Equal(t, "GET", r.Method)
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"apiKeys": [{"id": 1, "prefix": "testprefix"}]}`
+		response := `{"apiKeys": [{"id": "1", "prefix": "testprefix"}]}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -61,11 +61,11 @@ func TestListApiKeys(t *testing.T) {
 
 	// Call the method
 	apiKeys, err := client.ListApiKeys()
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, apiKeys)
 	assert.Len(t, apiKeys.APIKeys, 1)
-	assert.Equal(t, int64(1), apiKeys.APIKeys[0].ID)
+	assert.Equal(t, "1", apiKeys.APIKeys[0].ID)
 	assert.Equal(t, "testprefix", apiKeys.APIKeys[0].Prefix)
 }
 
@@ -151,10 +151,10 @@ func TestGetNode(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/api/v1/node/123", r.URL.Path)
 		assert.Equal(t, "GET", r.Method)
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"node": {"id": 123, "name": "test-node"}}`
+		response := `{"node": {"id": "123", "name": "test-node"}}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -163,11 +163,11 @@ func TestGetNode(t *testing.T) {
 	client := NewClient(server.URL, "")
 
 	// Call the method
-	node, err := client.GetNode(123)
-	
+	node, err := client.GetNode("123")
+
 	assert.NoError(t, err)
 	assert.NotNil(t, node)
-	assert.Equal(t, int64(123), node.Node.ID)
+	assert.Equal(t, "123", node.Node.ID)
 	assert.Equal(t, "test-node", node.Node.Name)
 }
 
@@ -176,10 +176,10 @@ func TestListNodes(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/api/v1/node", r.URL.Path)
 		assert.Equal(t, "GET", r.Method)
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"nodes": [{"id": 1, "name": "node1"}, {"id": 2, "name": "node2"}]}`
+		response := `{"nodes": [{"id": "1", "name": "node1"}, {"id": "2", "name": "node2"}]}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -189,13 +189,13 @@ func TestListNodes(t *testing.T) {
 
 	// Call the method
 	nodes, err := client.ListNodes(nil)
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, nodes)
 	assert.Len(t, nodes.Nodes, 2)
-	assert.Equal(t, int64(1), nodes.Nodes[0].ID)
+	assert.Equal(t, "1", nodes.Nodes[0].ID)
 	assert.Equal(t, "node1", nodes.Nodes[0].Name)
-	assert.Equal(t, int64(2), nodes.Nodes[1].ID)
+	assert.Equal(t, "2", nodes.Nodes[1].ID)
 	assert.Equal(t, "node2", nodes.Nodes[1].Name)
 }
 
@@ -204,7 +204,7 @@ func TestDeleteNode(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/api/v1/node/123", r.URL.Path)
 		assert.Equal(t, "DELETE", r.Method)
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		response := `{}`
@@ -216,8 +216,8 @@ func TestDeleteNode(t *testing.T) {
 	client := NewClient(server.URL, "")
 
 	// Call the method
-	deleteResp, err := client.DeleteNode(123)
-	
+	deleteResp, err := client.DeleteNode("123")
+
 	assert.NoError(t, err)
 	assert.NotNil(t, deleteResp)
 }
@@ -236,7 +236,7 @@ func TestCreateUser(t *testing.T) {
 		
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"user": {"id": 1, "name": "testuser"}}`
+		response := `{"user": {"id": "1", "name": "testuser"}}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -249,10 +249,10 @@ func TestCreateUser(t *testing.T) {
 		Name: "testuser",
 	}
 	user, err := client.CreateUser(req)
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
-	assert.Equal(t, int64(1), user.User.ID)
+	assert.Equal(t, "1", user.User.ID)
 	assert.Equal(t, "testuser", user.User.Name)
 }
 
@@ -264,7 +264,7 @@ func TestListUsers(t *testing.T) {
 		
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"users": [{"id": 1, "name": "user1"}, {"id": 2, "name": "user2"}]}`
+		response := `{"users": [{"id": "1", "name": "user1"}, {"id": "2", "name": "user2"}]}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -274,13 +274,13 @@ func TestListUsers(t *testing.T) {
 
 	// Call the method
 	users, err := client.ListUsers(nil, nil, nil)
-	
+
 	assert.NoError(t, err)
 	assert.NotNil(t, users)
 	assert.Len(t, users.Users, 2)
-	assert.Equal(t, int64(1), users.Users[0].ID)
+	assert.Equal(t, "1", users.Users[0].ID)
 	assert.Equal(t, "user1", users.Users[0].Name)
-	assert.Equal(t, int64(2), users.Users[1].ID)
+	assert.Equal(t, "2", users.Users[1].ID)
 	assert.Equal(t, "user2", users.Users[1].Name)
 }
 
@@ -378,12 +378,12 @@ func TestListNodesWithUserId(t *testing.T) {
 func TestRenameNode(t *testing.T) {
 	// Create a test server
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, fmt.Sprintf("/api/v1/node/%d/rename/newname", 123), r.URL.Path)
+		assert.Equal(t, fmt.Sprintf("/api/v1/node/%s/rename/newname", "123"), r.URL.Path)
 		assert.Equal(t, "POST", r.Method)
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		response := `{"node": {"id": 123, "name": "newname"}}`
+		response := `{"node": {"id": "123", "name": "newname"}}`
 		w.Write([]byte(response))
 	}))
 	defer server.Close()
@@ -392,10 +392,10 @@ func TestRenameNode(t *testing.T) {
 	client := NewClient(server.URL, "")
 
 	// Call the method
-	resp, err := client.RenameNode(123, "newname")
-	
+	resp, err := client.RenameNode("123", "newname")
+
 	assert.NoError(t, err)
 	assert.NotNil(t, resp)
-	assert.Equal(t, int64(123), resp.Node.ID)
+	assert.Equal(t, "123", resp.Node.ID)
 	assert.Equal(t, "newname", resp.Node.Name)
 }

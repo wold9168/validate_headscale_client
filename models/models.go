@@ -6,7 +6,7 @@ import (
 
 // APIKey represents the API key structure
 type APIKey struct {
-	ID        int64     `json:"id"`
+	ID        string    `json:"id"`
 	Prefix    string    `json:"prefix"`
 	Expiration time.Time `json:"expiration"`
 	CreatedAt time.Time `json:"createdAt"`
@@ -31,7 +31,7 @@ type CreateApiKeyResponse struct {
 // PreAuthKey represents a pre-authentication key
 type PreAuthKey struct {
 	User        User       `json:"user"`
-	ID          int64      `json:"id"`
+	ID          string     `json:"id"`
 	Key         string     `json:"key"`
 	Reusable    bool       `json:"reusable"`
 	Ephemeral   bool       `json:"ephemeral"`
@@ -57,7 +57,7 @@ type CreatePreAuthKeyResponse struct {
 
 // User represents a user in the system
 type User struct {
-	ID            int64     `json:"id"`
+	ID            string    `json:"id"`
 	Name          string    `json:"name"`
 	CreatedAt     time.Time `json:"createdAt"`
 	DisplayName   string    `json:"displayName,omitempty"`
@@ -90,7 +90,7 @@ type DebugCreateNodeRequest struct {
 
 // Node represents a node in the system
 type Node struct {
-	ID                int64     `json:"id"`
+	ID                string    `json:"id"`
 	MachineKey        string    `json:"machineKey"`
 	NodeKey           string    `json:"nodeKey"`
 	DiscoKey          string    `json:"discoKey"`

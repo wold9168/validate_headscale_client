@@ -169,8 +169,8 @@ func (c *Client) DeleteApiKey(prefix string) (*models.DeleteApiKeyResponse, erro
 }
 
 // ListNode gets a specific node
-func (c *Client) GetNode(nodeId int64) (*models.GetNodeResponse, error) {
-	resp, err := c.doRequest("GET", fmt.Sprintf("/api/v1/node/%d", nodeId), nil)
+func (c *Client) GetNode(nodeId string) (*models.GetNodeResponse, error) {
+	resp, err := c.doRequest("GET", fmt.Sprintf("/api/v1/node/%s", nodeId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -206,8 +206,8 @@ func (c *Client) ListNodes(userId *string) (*models.ListNodesResponse, error) {
 }
 
 // DeleteNode deletes a node
-func (c *Client) DeleteNode(nodeId int64) (*models.DeleteNodeResponse, error) {
-	resp, err := c.doRequest("DELETE", fmt.Sprintf("/api/v1/node/%d", nodeId), nil)
+func (c *Client) DeleteNode(nodeId string) (*models.DeleteNodeResponse, error) {
+	resp, err := c.doRequest("DELETE", fmt.Sprintf("/api/v1/node/%s", nodeId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +222,8 @@ func (c *Client) DeleteNode(nodeId int64) (*models.DeleteNodeResponse, error) {
 }
 
 // RenameNode renames a node
-func (c *Client) RenameNode(nodeId int64, newName string) (*models.RenameNodeResponse, error) {
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/rename/%s", nodeId, newName), nil)
+func (c *Client) RenameNode(nodeId string, newName string) (*models.RenameNodeResponse, error) {
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/rename/%s", nodeId, newName), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -238,8 +238,8 @@ func (c *Client) RenameNode(nodeId int64, newName string) (*models.RenameNodeRes
 }
 
 // ExpireNode expires a node
-func (c *Client) ExpireNode(nodeId int64) (*models.ExpireNodeResponse, error) {
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/expire", nodeId), nil)
+func (c *Client) ExpireNode(nodeId string) (*models.ExpireNodeResponse, error) {
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/expire", nodeId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -254,12 +254,12 @@ func (c *Client) ExpireNode(nodeId int64) (*models.ExpireNodeResponse, error) {
 }
 
 // SetNodeTags sets tags for a node
-func (c *Client) SetNodeTags(nodeId int64, tags []string) (*models.SetTagsResponse, error) {
+func (c *Client) SetNodeTags(nodeId string, tags []string) (*models.SetTagsResponse, error) {
 	req := &models.SetTagsBody{
 		Tags: tags,
 	}
-	
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/tags", nodeId), req)
+
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/tags", nodeId), req)
 	if err != nil {
 		return nil, err
 	}
@@ -274,12 +274,12 @@ func (c *Client) SetNodeTags(nodeId int64, tags []string) (*models.SetTagsRespon
 }
 
 // MoveNode moves a node to a different user
-func (c *Client) MoveNode(nodeId int64, userId string) (*models.MoveNodeResponse, error) {
+func (c *Client) MoveNode(nodeId string, userId string) (*models.MoveNodeResponse, error) {
 	req := &models.HeadscaleServiceMoveNodeBody{
 		User: userId,
 	}
 
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/user", nodeId), req)
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/user", nodeId), req)
 	if err != nil {
 		return nil, err
 	}
@@ -294,12 +294,12 @@ func (c *Client) MoveNode(nodeId int64, userId string) (*models.MoveNodeResponse
 }
 
 // SetApprovedRoutes sets approved routes for a node
-func (c *Client) SetApprovedRoutes(nodeId int64, routes []string) (*models.SetApprovedRoutesResponse, error) {
+func (c *Client) SetApprovedRoutes(nodeId string, routes []string) (*models.SetApprovedRoutesResponse, error) {
 	req := &models.SetApprovedRoutesBody{
 		Routes: routes,
 	}
-	
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/approve_routes", nodeId), req)
+
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/approve_routes", nodeId), req)
 	if err != nil {
 		return nil, err
 	}
@@ -335,8 +335,8 @@ func (c *Client) RegisterNode(machinePublicKey, authKey string) (*models.Registe
 }
 
 // BackfillNodeIPs backfills node IP addresses
-func (c *Client) BackfillNodeIPs(nodeId int64) (*models.BackfillNodeIPsResponse, error) {
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%d/backfillips", nodeId), nil)
+func (c *Client) BackfillNodeIPs(nodeId string) (*models.BackfillNodeIPsResponse, error) {
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/node/%s/backfillips", nodeId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -497,8 +497,8 @@ func (c *Client) CreateUser(req *models.CreateUserRequest) (*models.CreateUserRe
 }
 
 // DeleteUser deletes a user
-func (c *Client) DeleteUser(id int64) (*models.DeleteUserResponse, error) {
-	resp, err := c.doRequest("DELETE", fmt.Sprintf("/api/v1/user/%d", id), nil)
+func (c *Client) DeleteUser(id string) (*models.DeleteUserResponse, error) {
+	resp, err := c.doRequest("DELETE", fmt.Sprintf("/api/v1/user/%s", id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -513,8 +513,8 @@ func (c *Client) DeleteUser(id int64) (*models.DeleteUserResponse, error) {
 }
 
 // RenameUser renames a user
-func (c *Client) RenameUser(oldId int64, newName string) (*models.RenameUserResponse, error) {
-	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/user/%d/rename/%s", oldId, newName), nil)
+func (c *Client) RenameUser(oldId string, newName string) (*models.RenameUserResponse, error) {
+	resp, err := c.doRequest("POST", fmt.Sprintf("/api/v1/user/%s/rename/%s", oldId, newName), nil)
 	if err != nil {
 		return nil, err
 	}

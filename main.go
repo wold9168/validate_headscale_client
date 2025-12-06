@@ -82,6 +82,8 @@ func main() {
 			}
 
 			// Example: List pre-authentication keys for the first user if available
+			// Note: Using the user's Name field instead of ID since that's what the API expects
+			// The API endpoints that need user ID typically expect the user ID as a string
 			preAuthKeys, err := c.ListPreAuthKeys(users.Users[0].Name)
 			if err != nil {
 				log.Printf("Error listing pre-auth keys: %v", err)
